@@ -1,0 +1,50 @@
+# Welcome to BladehuntUtil's config!
+# Most strings that are viewable by players use PlaceholderAPI and the MiniMessage format.
+# For more info about PlaceholderAPI, visit https://www.spigotmc.org/resources/placeholderapi.6245/
+# For more info about MiniMessage, visit https://docs.advntr.dev/minimessage/format.html
+
+messages:
+  # These messages are sent to console/command blocks. Don't use MM/PAPI here!
+  not_player: "You must be a player to use this!"
+  # These are player messages. You can use MM & PAPI here!
+  no_permission: "<red>You don't have permission to use this!"
+  warp_not_found: "<red>This warp does not exist!"
+modules:
+  warps:
+    enabled: true
+    locations:
+      home:
+        world: world
+        x: 0.5
+        y: 100.0
+        z: 0.5,
+        # Optional: yaw, pitch, permission
+        yaw: 90
+        pitch: 0
+        permission: "bladehunt.warps.home"
+  scoreboard:
+    enabled: true
+    # If this is true, scoreboards will be enabled in all worlds except the excluded ones.
+    # If this is false, scoreboards will be disabled in all worlds except the excluded ones.
+    default_world_behavior: true
+    world_exclusions: []
+    title: "<red>Sidebar"
+    text: [
+            "%luckperms_prefix% %player_name%",
+            "<red>Welcome to our server!"
+    ]
+  player_list:
+    enabled: true
+    header: "\n<red><bold>Welcome to our server!</bold></red>\nRank: %luckperms_prefix%\n"
+    footer: "\n<red><bold>We hope you have a fun time!</bold></red>\n"
+    # If this is true, scoreboards will be enabled in all worlds except the excluded ones.
+    # If this is false, scoreboards will be disabled in all worlds except the excluded ones.
+    default_world_behavior: true
+    world_exclusions: []
+  display_names:
+    enabled: true
+    display: "%luckperms_prefix% %player_name%"
+  chat_display:
+    enabled: true
+    # Use {message} for the message
+    display: "%luckperms_prefix% %player_name%<gray>:<white> {message}"

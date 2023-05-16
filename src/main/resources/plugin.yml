@@ -1,0 +1,11 @@
+name: BladehuntUtil
+main: net.bladehunt.util.BladehuntUtil
+version: 0.1
+author: oglass
+description: Common utils made for Spigot/Bukkit servers.
+
+softdepend: [PlaceholderAPI]
+
+commands:
+  warp:
+    description: Warp command.
