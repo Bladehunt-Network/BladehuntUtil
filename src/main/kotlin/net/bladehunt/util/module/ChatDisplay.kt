@@ -2,6 +2,8 @@ package net.bladehunt.util.module
 
 import com.andreapivetta.kolor.Color
 import com.andreapivetta.kolor.Kolor
+import me.lucko.commodore.Commodore
+import me.lucko.commodore.CommodoreProvider
 import net.bladehunt.util.BladehuntUtil
 import org.bukkit.Bukkit
 import org.bukkit.configuration.ConfigurationSection

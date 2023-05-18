@@ -2,8 +2,10 @@ package net.bladehunt.util.module
 
 import com.andreapivetta.kolor.Color
 import com.andreapivetta.kolor.Kolor
+import fr.mrmicky.fastboard.FastBoard
 import net.bladehunt.util.BladehuntUtil
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.Bukkit
 import org.bukkit.World
 import org.bukkit.entity.Player
@@ -14,10 +16,9 @@ import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerTeleportEvent
 import org.bukkit.scheduler.BukkitRunnable
 
-class PlayerList : IModule, Listener {
-    override val name: String = "Player List"
-    override val configName: String = "player_list"
-
+class Sidebar : IModule,Listener {
+    override val name: String = "Sidebar"
+    override val configName: String = "sidebar"
     var defaultBehavior: Boolean = true
         private set
     val excludedWorlds = arrayListOf<String>()
@@ -26,19 +27,20 @@ class PlayerList : IModule, Listener {
     var updateInterval = 40
         private set
 
-    private var header = ""
-    private var footer = ""
+    private var title = "Bladehunt Utils"
+    private val lines = arrayListOf<String>()
+    private val fastBoards = hashMapOf<Player,FastBoard>()
 
     override fun loadModule(plugin: BladehuntUtil): Boolean {
         val config = getConfig(plugin)
         if (!config!!.getBoolean("enabled")) return false
         Bukkit.getLogger().info(Kolor.background(Kolor.foreground("   Loading player list module...   ", Color.BLACK), Color.LIGHT_BLUE))
-        header = config.getString("header")
-        footer = config.getString("footer")
         defaultBehavior = config.getBoolean("default_world_behavior")
         excludedWorlds.addAll(config.getStringList("world_exclusions"))
         joinDelay = config.getInt("join_delay")
         updateInterval = config.getInt("update_interval")
+        title = config.getString("title")
+        lines.addAll(config.getStringList("lines"))
 
         Bukkit.getPluginManager().registerEvents(this,plugin)
         return true
@@ -51,35 +53,35 @@ class PlayerList : IModule, Listener {
         object : BukkitRunnable() {
             override fun run() {
                 if (!getBehavior(player.world)) {
+                    fastBoards[player]?.delete()
+                    fastBoards.remove(player)
                     return
                 }
-                updatePlayerList(plugin,player)
+                if (fastBoards[player] == null) fastBoards[player] = FastBoard(player)
+                updateSidebar(plugin,player)
             }
         }.runTaskTimerAsynchronously(plugin,joinDelay.toLong(), updateInterval.toLong())
-    }
-
-    @EventHandler
-    fun onTeleport(event: PlayerTeleportEvent) {
-        if (event.from.world == event.to.world) return
-        val player = event.player
-        val plugin = BladehuntUtil.instance
-        val audience = plugin.adventure().player(player)
-        if (!getBehavior(event.to.world)) audience.sendPlayerListHeaderAndFooter(Component.empty(),Component.empty())
-        else updatePlayerList(plugin,player)
     }
     override fun unloadModule(plugin: BladehuntUtil) {
         Bukkit.getOnlinePlayers().forEach { player ->
             val audience = plugin.adventure().player(player)
-            audience.sendPlayerListHeaderAndFooter(Component.empty(),Component.empty())
+            audience.sendPlayerListHeaderAndFooter(Component.empty(), Component.empty())
         }
         HandlerList.unregisterAll(this)
     }
-    fun updatePlayerList(plugin: BladehuntUtil, player: Player) {
-        val audience = plugin.adventure().player(player)
-        audience.sendPlayerListHeaderAndFooter(
-            plugin.parseMM(plugin.replacePlaceholders(player,header)),
-            plugin.parseMM(plugin.replacePlaceholders(player,footer))
-        )
+    fun updateSidebar(plugin: BladehuntUtil, player: Player) {
+        Bukkit.getScheduler().runTaskAsynchronously(plugin) {
+            fastBoards[player]?.let{
+                it.updateTitle(
+                    LegacyComponentSerializer.legacySection().serialize(
+                        plugin.parseMM(plugin.replacePlaceholders(player,title))
+                    )
+                )
+                it.updateLines(lines.map { LegacyComponentSerializer.legacySection().serialize(
+                    plugin.parseMM(plugin.replacePlaceholders(player,it))
+                ) })
+            }
+        }
     }
     private fun getBehavior(world: World): Boolean {
         if (defaultBehavior) return !excludedWorlds.contains(world.name)

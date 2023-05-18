@@ -6,6 +6,7 @@ import me.clip.placeholderapi.PlaceholderAPI
 import net.bladehunt.util.module.ChatDisplay
 import net.bladehunt.util.module.DisplayName
 import net.bladehunt.util.module.PlayerList
+import net.bladehunt.util.module.Sidebar
 import net.bladehunt.util.module.warps.Warps
 import net.kyori.adventure.platform.bukkit.BukkitAudiences
 import net.kyori.adventure.text.Component
@@ -45,6 +46,8 @@ class BladehuntUtil : JavaPlugin() {
         private set
     var displayNameModule: DisplayName? = null
         private set
+    var sidebarModule: Sidebar? = null
+        private set
 
     override fun onEnable() {
         _instance = this
@@ -56,6 +59,7 @@ class BladehuntUtil : JavaPlugin() {
                 Kolor.foreground("   Initializing BladehuntUtil...   ",Color.BLACK),
                 Color.RED)
         )
+        getCommand("bladehuntutil").executor = PluginCommand
         saveDefaultConfig()
         Warps().let { module ->
             module.loadModule(this).let { enabled ->
@@ -70,6 +74,11 @@ class BladehuntUtil : JavaPlugin() {
         ChatDisplay().let { module ->
             module.loadModule(this).let { enabled ->
                 chatDisplayModule = module
+            }
+        }
+        Sidebar().let { module ->
+            module.loadModule(this).let { enabled ->
+                sidebarModule = module
             }
         }
         DisplayName().let { module ->

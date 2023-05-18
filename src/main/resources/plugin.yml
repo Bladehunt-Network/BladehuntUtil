@@ -3,9 +3,12 @@ main: net.bladehunt.util.BladehuntUtil
 version: 0.1
 author: oglass
 description: Common utils made for Spigot/Bukkit servers.
+api-version: 1.13
 
 softdepend: [PlaceholderAPI]
 
 commands:
   warp:
     description: Warp command.
+  bladehuntutil:
+    description: Main Plugin Command.

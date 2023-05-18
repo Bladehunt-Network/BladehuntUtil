@@ -22,21 +22,30 @@ modules:
         yaw: 90
         pitch: 0
         permission: "bladehunt.warps.home"
-  scoreboard:
-    enabled: true
-    # If this is true, scoreboards will be enabled in all worlds except the excluded ones.
-    # If this is false, scoreboards will be disabled in all worlds except the excluded ones.
-    default_world_behavior: true
-    world_exclusions: []
-    title: "<red>Sidebar"
-    text: [
-            "%luckperms_prefix% %player_name%",
-            "<red>Welcome to our server!"
-    ]
   player_list:
     enabled: true
     header: "\n<red><bold>Welcome to our server!</bold></red>\nRank: %luckperms_prefix%\n"
     footer: "\n<red><bold>We hope you have a fun time!</bold></red>\n"
+    # Delay until the player joins, in ticks
+    join_delay: 20
+    # Update interval between each update in ticks. Set to 0 to disable updating
+    update_interval: 40
+    # If this is true, player lists will be enabled in all worlds except the excluded ones.
+    # If this is false, player lists will be disabled in all worlds except the excluded ones.
+    default_world_behavior: true
+    world_exclusions: []
+  sidebar:
+    enabled: true
+    title: "<red>BladehuntUtil"
+    lines:
+      - "<red>Sidebars"
+      - "<blue>are cool"
+      - ""
+      - "<yellow>play.example.net"
+    # Delay until the player joins, in ticks
+    join_delay: 20
+    # Update interval between each update in ticks. Set to 0 to disable updating
+    update_interval: 40
     # If this is true, scoreboards will be enabled in all worlds except the excluded ones.
     # If this is false, scoreboards will be disabled in all worlds except the excluded ones.
     default_world_behavior: true
