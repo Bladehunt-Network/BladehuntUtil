@@ -34,7 +34,7 @@ class Sidebar : IModule,Listener {
     override fun loadModule(plugin: BladehuntUtil): Boolean {
         val config = getConfig(plugin)
         if (!config!!.getBoolean("enabled")) return false
-        Bukkit.getLogger().info(Kolor.background(Kolor.foreground("   Loading player list module...   ", Color.BLACK), Color.LIGHT_BLUE))
+        plugin.logger.info(Kolor.background(Kolor.foreground("   Loading sidebar module...   ", Color.BLACK), Color.LIGHT_GREEN))
         defaultBehavior = config.getBoolean("default_world_behavior")
         excludedWorlds.addAll(config.getStringList("world_exclusions"))
         joinDelay = config.getInt("join_delay")

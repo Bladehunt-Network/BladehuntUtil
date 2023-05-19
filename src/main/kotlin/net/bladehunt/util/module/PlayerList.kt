@@ -32,7 +32,7 @@ class PlayerList : IModule, Listener {
     override fun loadModule(plugin: BladehuntUtil): Boolean {
         val config = getConfig(plugin)
         if (!config!!.getBoolean("enabled")) return false
-        Bukkit.getLogger().info(Kolor.background(Kolor.foreground("   Loading player list module...   ", Color.BLACK), Color.LIGHT_BLUE))
+        plugin.logger.info(Kolor.background(Kolor.foreground("   Loading player list module...   ", Color.BLACK), Color.LIGHT_BLUE))
         header = config.getString("header")
         footer = config.getString("footer")
         defaultBehavior = config.getBoolean("default_world_behavior")

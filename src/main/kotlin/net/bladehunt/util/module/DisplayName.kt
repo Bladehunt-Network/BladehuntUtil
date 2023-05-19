@@ -20,7 +20,7 @@ class DisplayName : IModule,Listener {
     override fun loadModule(plugin: BladehuntUtil): Boolean {
         config = getConfig(plugin)
         if (!config!!.getBoolean("enabled")) return false
-        Bukkit.getLogger().info(Kolor.background(Kolor.foreground("   Loading display name module...   ", Color.BLACK), Color.LIGHT_GREEN))
+        plugin.logger.info(Kolor.background(Kolor.foreground("   Loading display name module...   ", Color.BLACK), Color.GREEN))
         Bukkit.getPluginManager().registerEvents(this,plugin)
         format = config!!.getString("display")
         return true

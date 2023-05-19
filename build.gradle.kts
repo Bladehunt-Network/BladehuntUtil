@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "net.bladehunt"
-version = "0.1-beta"
+version = "0.1"
 
 repositories {
     mavenCentral()
@@ -23,11 +23,13 @@ dependencies {
     implementation("net.kyori:adventure-text-serializer-legacy:4.13.1")
     implementation("me.lucko:commodore:2.2")
     implementation("fr.mrmicky:fastboard:1.2.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
 
+    implementation("com.squareup.okhttp3:okhttp:4.9.1")
     testImplementation(kotlin("test"))
 }
 tasks.build {
-    dependsOn(tasks.shadowJar)
+    dependsOn(tasks.shadowJar,tasks.processResources)
 }
 tasks.shadowJar {
     relocate("net.kyori.adventure","net.bladehunt.util.libs.adventure")
@@ -39,11 +41,12 @@ tasks.shadowJar {
         exclude(dependency("com.mojang:brigader"))
     }
 }
-
+tasks.processResources {
+    expand("projectVersion" to project.version)
+}
 tasks.test {
     useJUnitPlatform()
 }
-
 kotlin {
     jvmToolchain(8)
 }

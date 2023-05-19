@@ -1,6 +1,6 @@
 name: BladehuntUtil
 main: net.bladehunt.util.BladehuntUtil
-version: 0.1
+version: "${projectVersion}"
 author: oglass
 description: Common utils made for Spigot/Bukkit servers.
 api-version: 1.13

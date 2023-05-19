@@ -20,7 +20,7 @@ class Warps : IModule {
     override fun loadModule(plugin: BladehuntUtil): Boolean {
         config = getConfig(plugin)
         if (!config!!.getBoolean("enabled")) return false
-        Bukkit.getLogger().info(Kolor.background(Kolor.foreground("   Loading warp module...   ",Color.BLACK), Color.CYAN))
+        plugin.logger.info(Kolor.background(Kolor.foreground("   Loading warp module...   ",Color.BLACK), Color.CYAN))
         config!!.getConfigurationSection("locations").let { locations ->
             locations.getKeys(false).forEach { name ->
                 val warpConf = locations.getConfigurationSection(name)

@@ -51,10 +51,11 @@ class BladehuntUtil : JavaPlugin() {
 
     override fun onEnable() {
         _instance = this
+        Updater.checkUpdates(description.version)
         this.adventure = BukkitAudiences.create(this)
         papiEnabled = Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null
 
-        Bukkit.getLogger().info(
+        logger.info(
             Kolor.background(
                 Kolor.foreground("   Initializing BladehuntUtil...   ",Color.BLACK),
                 Color.RED)
@@ -63,30 +64,35 @@ class BladehuntUtil : JavaPlugin() {
         saveDefaultConfig()
         Warps().let { module ->
             module.loadModule(this).let { enabled ->
-                warpModule = module
+                if (enabled) warpModule = module
             }
         }
         PlayerList().let { module ->
             module.loadModule(this).let { enabled ->
-                playerListModule = module
+                if (enabled) playerListModule = module
             }
         }
         ChatDisplay().let { module ->
             module.loadModule(this).let { enabled ->
-                chatDisplayModule = module
+                if (enabled) chatDisplayModule = module
             }
         }
         Sidebar().let { module ->
             module.loadModule(this).let { enabled ->
-                sidebarModule = module
+                if (enabled) sidebarModule = module
             }
         }
         DisplayName().let { module ->
             module.loadModule(this).let { enabled ->
-                displayNameModule = module
+                if (enabled) displayNameModule = module
             }
         }
         this._messageConfig = MessageConfig(config.getConfigurationSection("messages"),this)
+        logger.info(
+            Kolor.background(
+                Kolor.foreground("   Finished loading BladehuntUtil!   ",Color.BLACK),
+                Color.GREEN)
+        )
     }
     override fun onDisable() {
         if(this.adventure != null) {

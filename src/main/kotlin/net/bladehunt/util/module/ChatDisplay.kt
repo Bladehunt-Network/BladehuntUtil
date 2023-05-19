@@ -23,7 +23,7 @@ class ChatDisplay : IModule,Listener {
         Bukkit.getPluginManager().registerEvents(this,plugin)
         config = getConfig(plugin)
         if (!config!!.getBoolean("enabled")) return false
-        Bukkit.getLogger().info(Kolor.background(Kolor.foreground("   Loading chat display module...   ", Color.BLACK), Color.LIGHT_MAGENTA))
+        plugin.logger.info(Kolor.background(Kolor.foreground("   Loading chat display module...   ", Color.BLACK), Color.LIGHT_MAGENTA))
         format = config!!.getString("display")
         return true
     }
